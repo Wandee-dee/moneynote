@@ -65,12 +65,15 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
 /* CHARTS */
 .chart-section{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:.85rem;margin-bottom:1rem}
 .chart-section-title{font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem}
-.pie-row{display:flex;gap:8px}
-.pie-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.pie-col-label{font-size:11px;font-weight:600;text-align:center}
+/* 2x2 grid on mobile */
+.pie-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pie-col{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.pie-col-label{font-size:11px;font-weight:600;text-align:center;white-space:nowrap}
 .pie-col-label.income{color:#10b981}
 .pie-col-label.expense{color:#ef4444}
 .pie-col-label.both{color:#6366f1}
+/* canvas ขนาด responsive */
+.pie-col canvas{width:90px!important;height:90px!important}
 .mini-legend{width:100%;display:flex;flex-direction:column;gap:3px;margin-top:4px}
 .mini-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;overflow:hidden}
 .mini-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
@@ -270,9 +273,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
       </div>
       <div class="pie-col">
         <div class="pie-col-label both">รวม (รับ vs จ่าย)</div>
-        <div style="position:relative;width:100px;height:100px">
-          <canvas id="pie-both" width="100" height="100" style="position:absolute;top:0;left:0"></canvas>
-          <canvas id="pie-both-inner" width="100" height="100" style="position:absolute;top:0;left:0"></canvas>
+        <div style="position:relative;width:90px;height:90px">
+          <canvas id="pie-both" width="90" height="90" style="position:absolute;top:0;left:0"></canvas>
+          <canvas id="pie-both-inner" width="90" height="90" style="position:absolute;top:0;left:0"></canvas>
           <div id="both-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;line-height:1.2"></div>
         </div>
         <div class="mini-legend" id="legend-both"></div>
@@ -464,7 +467,7 @@ function setLoginLoading(on,formId){
 }
 
 async function doLogin(){
-  const u=document.getElementById('login-user').value.trim(),p=document.getElementById('login-pass').value;
+  const u=document.getElementById('login-user').value.trim().toLowerCase(),p=document.getElementById('login-pass').value;
   const err=document.getElementById('login-error');
   if(!u||!p){err.style.display='block';err.textContent='กรุณากรอกข้อมูลให้ครบ';return}
   setLoginLoading(true,'login-form');
@@ -480,7 +483,7 @@ async function doLogin(){
 }
 
 async function doRegister(){
-  const u=document.getElementById('reg-user').value.trim(),p=document.getElementById('reg-pass').value,p2=document.getElementById('reg-pass2').value;
+  const u=document.getElementById('reg-user').value.trim().toLowerCase(),p=document.getElementById('reg-pass').value,p2=document.getElementById('reg-pass2').value;
   const err=document.getElementById('reg-error');
   if(!u||!p){err.style.display='block';err.textContent='กรุณากรอกข้อมูลให้ครบ';return}
   if(p!==p2){err.style.display='block';err.textContent='รหัสผ่านไม่ตรงกัน';return}
