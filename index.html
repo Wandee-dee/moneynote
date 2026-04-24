@@ -312,6 +312,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
     <button class="nav-item active" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
     <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Admin</button>
   </div>
 </div>
 
@@ -341,6 +342,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
     <button class="nav-item active" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Admin</button>
   </div>
 </div>
 
@@ -372,6 +374,59 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
     <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item active" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN SCREEN -->
+<div id="screen-admin" class="screen">
+  <div class="topbar">
+    <div class="topbar-title">🛡️ Admin Panel</div>
+    <div class="topbar-user">
+      <div class="avatar" id="admin-avatar">A</div>
+      <button class="logout-btn" onclick="doLogout()">ออก</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="period-tabs" style="margin-bottom:1rem">
+    <button class="tab active" id="atab-users" onclick="switchAdminTab('users',this)">👥 Users</button>
+    <button class="tab" id="atab-summary" onclick="switchAdminTab('summary',this)">📊 Summary</button>
+  </div>
+
+  <!-- USERS TAB -->
+  <div id="admin-users-panel">
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">จัดการ Users</div>
+      <div id="admin-user-list"><div class="empty-state">กำลังโหลด...</div></div>
+    </div>
+    <!-- Add user -->
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">➕ เพิ่ม User ใหม่</div>
+      <div class="form-group"><label>Username</label><input id="new-user-name" type="text" placeholder="ชื่อผู้ใช้"></div>
+      <div class="form-group"><label>Password</label><input id="new-user-pass" type="password" placeholder="รหัสผ่าน"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
+        <input type="checkbox" id="new-user-admin" style="width:16px;height:16px">
+        <label for="new-user-admin" style="font-size:13px;color:#374151">เป็น Admin</label>
+      </div>
+      <button class="btn-primary" style="margin-top:0" onclick="adminAddUser()">เพิ่ม User</button>
+      <div id="add-user-msg" style="font-size:12px;margin-top:8px;text-align:center"></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TAB -->
+  <div id="admin-summary-panel" style="display:none">
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">สรุปยอดทุก User</div>
+      <div id="admin-summary-list"><div class="empty-state">กำลังโหลด...</div></div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
+    <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+    <button class="nav-item active" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Admin</button>
   </div>
 </div>
 </div>
@@ -476,7 +531,9 @@ async function doLogin(){
     const res=await apiCall({action:'login',username:u,password:p});
     if(!res.ok){err.style.display='block';err.textContent=res.error||'ล็อกอินไม่สำเร็จ';return}
     setCurrentUser(u);
-    await initApp(u);
+    // store admin flag in session
+    try{localStorage.setItem('mn_admin',res.isAdmin?'1':'0')}catch(e){}
+    await initApp(u, res.isAdmin||false);
   }catch(e){
     err.style.display='block';err.textContent='เชื่อมต่อ server ไม่ได้ กรุณาลองใหม่';
   }finally{setLoginLoading(false,'login-form');}
@@ -493,27 +550,34 @@ async function doRegister(){
     const res=await apiCall({action:'register',username:u,password:p});
     if(!res.ok){err.style.display='block';err.textContent=res.error||'สมัครไม่สำเร็จ';return}
     setCurrentUser(u);
-    await initApp(u);
+    try{localStorage.setItem('mn_admin',res.isAdmin?'1':'0')}catch(e){}
+    await initApp(u, res.isAdmin||false);
   }catch(e){
     err.style.display='block';err.textContent='เชื่อมต่อ server ไม่ได้ กรุณาลองใหม่';
   }finally{setLoginLoading(false,'register-form');}
 }
 
 function doLogout(){
-  clearCurrentUser();currentUser=null;userData=null;
+  clearCurrentUser();
+  try{localStorage.removeItem('mn_admin')}catch(e){}
+  currentUser=null;userData=null;isAdminUser=false;
   showScreen('login');
   document.getElementById('login-user').value='';document.getElementById('login-pass').value='';
 }
 
-async function initApp(u){
+async function initApp(u, adminFlag){
   currentUser=u;
-  // โหลด cache ก่อนให้ UI ขึ้นเร็ว
+  isAdminUser = adminFlag || false;
   const cached=getCached(u);
   userData=cached||{transactions:[],categories:JSON.parse(JSON.stringify(DEFAULT_CATS))};
   if(!userData.categories.invest) userData.categories.invest=JSON.parse(JSON.stringify(DEFAULT_CATS.invest));
 
   document.getElementById('avatar-initials').textContent=u[0].toUpperCase();
   document.getElementById('topbar-username').textContent=u;
+  // show/hide admin nav buttons
+  document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdminUser?'flex':'none');
+  document.getElementById('admin-avatar').textContent=u[0].toUpperCase();
+
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();selectedCalDay=now.getDate();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),last=new Date(y,now.getMonth()+1,0).getDate();
   document.getElementById('range-start').value=`${y}-${m}-01`;
@@ -522,7 +586,6 @@ async function initApp(u){
   showScreen('main');
   renderDashboard();
 
-  // โหลดข้อมูลจาก server ในพื้นหลัง
   try{
     const res=await apiCall({action:'load',user:u});
     if(res.ok){
@@ -533,7 +596,6 @@ async function initApp(u){
       }
       setCached(u,userData);
       renderDashboard();
-      // แสดง sync status
       showSyncStatus('✅ ซิงค์ข้อมูลแล้ว');
     }
   }catch(e){
@@ -885,9 +947,131 @@ function removeCat(type,i){userData.categories[type].splice(i,1);saveUserData(cu
 function exportData(){const blob=new Blob([JSON.stringify({user:currentUser,...userData},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`moneynote_${currentUser}_${new Date().toISOString().split('T')[0]}.json`;a.click()}
 function exportCSV(){const rows=userData.transactions.map(t=>`${t.date},${t.type==='income'?'รายรับ':'รายจ่าย'},${t.cat||''},${t.note||''},${t.amount}`).join('\n');const blob=new Blob(['\uFEFF'+'วันที่,ประเภท,หมวดหมู่,รายละเอียด,จำนวนเงิน\n'+rows],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`moneynote_${currentUser}_${new Date().toISOString().split('T')[0]}.csv`;a.click()}
 function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.transactions){userData.transactions=[...userData.transactions,...d.transactions.filter(t=>!userData.transactions.find(x=>x.id===t.id))];saveUserData(currentUser,userData);alert('นำเข้าสำเร็จ '+d.transactions.length+' รายการ');renderDashboard();}}catch(err){alert('ไฟล์ไม่ถูกต้อง')}};reader.readAsText(file)}
+let isAdminUser = false;
+
+function showTab(tab,btn){
+  if(tab==='main'){showScreen('main');renderDashboard()}
+  else if(tab==='history'){showScreen('history');initHistDate();renderHistory()}
+  else if(tab==='settings'){showScreen('settings');renderCatSettings()}
+  else if(tab==='admin'&&isAdminUser){showScreen('admin');loadAdminTab();}
+}
+
+function switchAdminTab(tab, btn){
+  document.querySelectorAll('#screen-admin .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('admin-users-panel').style.display = tab==='users'?'block':'none';
+  document.getElementById('admin-summary-panel').style.display = tab==='summary'?'block':'none';
+  if(tab==='summary') loadAdminSummary();
+  else loadAdminUsers();
+}
+
+function loadAdminTab(){
+  // default tab = users
+  document.getElementById('admin-users-panel').style.display='block';
+  document.getElementById('admin-summary-panel').style.display='none';
+  document.getElementById('atab-users').classList.add('active');
+  document.getElementById('atab-summary').classList.remove('active');
+  loadAdminUsers();
+}
+
+async function loadAdminUsers(){
+  document.getElementById('admin-user-list').innerHTML='<div class="empty-state">กำลังโหลด...</div>';
+  try{
+    const res=await apiCall({action:'admin_users',user:currentUser});
+    if(!res.ok){document.getElementById('admin-user-list').innerHTML=`<div class="empty-state">${res.error}</div>`;return;}
+    if(!res.users.length){document.getElementById('admin-user-list').innerHTML='<div class="empty-state">ยังไม่มี user</div>';return;}
+    document.getElementById('admin-user-list').innerHTML=res.users.map(u=>`
+      <div style="border:1px solid #e5e7eb;border-radius:10px;padding:.75rem;margin-bottom:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:32px;height:32px;border-radius:50%;background:${u.isAdmin?'#fef3c7':'#d1fae5'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:${u.isAdmin?'#92400e':'#059669'}">${u.username[0].toUpperCase()}</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#111">${u.username} ${u.isAdmin?'<span style="font-size:10px;background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:999px">Admin</span>':''}</div>
+              <div style="font-size:11px;color:#9ca3af">${u.txCount} รายการ · สมัคร ${u.created}</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="adminResetPass('${u.username}')" style="flex:1;padding:5px 8px;font-size:11px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;cursor:pointer;color:#374151">🔑 รีเซ็ต Password</button>
+          ${u.username!==currentUser?`<button onclick="adminToggleAdmin('${u.username}',${!u.isAdmin})" style="flex:1;padding:5px 8px;font-size:11px;border:1px solid ${u.isAdmin?'#fca5a5':'#a7f3d0'};border-radius:6px;background:${u.isAdmin?'#fee2e2':'#d1fae5'};cursor:pointer;color:#374151">${u.isAdmin?'🚫 ถอด Admin':'⭐ ตั้งเป็น Admin'}</button>`:''}
+          ${u.username!==currentUser?`<button onclick="adminDeleteUserAction('${u.username}')" style="padding:5px 8px;font-size:11px;border:1px solid #fca5a5;border-radius:6px;background:#fee2e2;cursor:pointer;color:#dc2626">🗑️ ลบ</button>`:''}
+        </div>
+      </div>`).join('');
+  }catch(e){document.getElementById('admin-user-list').innerHTML='<div class="empty-state">โหลดไม่สำเร็จ</div>';}
+}
+
+async function loadAdminSummary(){
+  document.getElementById('admin-summary-list').innerHTML='<div class="empty-state">กำลังโหลด...</div>';
+  try{
+    const res=await apiCall({action:'admin_summary',user:currentUser});
+    if(!res.ok){document.getElementById('admin-summary-list').innerHTML=`<div class="empty-state">${res.error}</div>`;return;}
+    const total={income:0,expense:0,invest:0,balance:0};
+    res.summary.forEach(s=>{total.income+=s.income;total.expense+=s.expense;total.invest+=s.invest;total.balance+=s.balance;});
+    document.getElementById('admin-summary-list').innerHTML=`
+      <div style="background:#f3f4f6;border-radius:10px;padding:.75rem;margin-bottom:.75rem">
+        <div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:6px">ภาพรวมทั้งหมด</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div><div style="font-size:10px;color:#9ca3af">รายรับรวม</div><div style="font-size:14px;font-weight:600;color:#10b981">${fmt(total.income)}</div></div>
+          <div><div style="font-size:10px;color:#9ca3af">รายจ่ายรวม</div><div style="font-size:14px;font-weight:600;color:#ef4444">${fmt(total.expense)}</div></div>
+          <div><div style="font-size:10px;color:#9ca3af">ลงทุนรวม</div><div style="font-size:14px;font-weight:600;color:#6366f1">${fmt(total.invest)}</div></div>
+          <div><div style="font-size:10px;color:#9ca3af">คงเหลือรวม</div><div style="font-size:14px;font-weight:600;color:${total.balance>=0?'#10b981':'#ef4444'}">${fmt(total.balance)}</div></div>
+        </div>
+      </div>
+      ${res.summary.map(s=>`
+      <div style="border:1px solid #e5e7eb;border-radius:10px;padding:.75rem;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:6px">👤 ${s.username}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <div style="font-size:11px;color:#6b7280">รายรับ: <span style="color:#10b981;font-weight:500">${fmt(s.income)}</span></div>
+          <div style="font-size:11px;color:#6b7280">รายจ่าย: <span style="color:#ef4444;font-weight:500">${fmt(s.expense)}</span></div>
+          <div style="font-size:11px;color:#6b7280">ลงทุน: <span style="color:#6366f1;font-weight:500">${fmt(s.invest)}</span></div>
+          <div style="font-size:11px;color:#6b7280">คงเหลือ: <span style="color:${s.balance>=0?'#10b981':'#ef4444'};font-weight:500">${fmt(s.balance)}</span></div>
+        </div>
+      </div>`).join('')}`;
+  }catch(e){document.getElementById('admin-summary-list').innerHTML='<div class="empty-state">โหลดไม่สำเร็จ</div>';}
+}
+
+async function adminResetPass(target){
+  const newPass=prompt(`รีเซ็ต password ของ "${target}"\nกรอก password ใหม่:`);
+  if(!newPass||!newPass.trim()) return;
+  const res=await apiCall({action:'admin_reset_password',user:currentUser,target,newPassword:newPass.trim()});
+  alert(res.ok?`✅ รีเซ็ต password ของ ${target} สำเร็จ`:`❌ ${res.error}`);
+}
+
+async function adminToggleAdmin(target, makeAdmin){
+  if(!confirm(`${makeAdmin?'ตั้ง':'ถอด'} Admin ของ "${target}"?`)) return;
+  const res=await apiCall({action:'admin_set_flag',user:currentUser,target,flag:makeAdmin});
+  if(res.ok) loadAdminUsers();
+  else alert(`❌ ${res.error}`);
+}
+
+async function adminDeleteUserAction(target){
+  if(!confirm(`⚠️ ลบ user "${target}" และข้อมูลทั้งหมด?\nการกระทำนี้ไม่สามารถย้อนกลับได้`)) return;
+  const res=await apiCall({action:'admin_delete_user',user:currentUser,target});
+  if(res.ok){alert(`✅ ลบ ${target} แล้ว`);loadAdminUsers();}
+  else alert(`❌ ${res.error}`);
+}
+
+async function adminAddUser(){
+  const u=document.getElementById('new-user-name').value.trim().toLowerCase();
+  const p=document.getElementById('new-user-pass').value;
+  const isAdm=document.getElementById('new-user-admin').checked;
+  const msg=document.getElementById('add-user-msg');
+  if(!u||!p){msg.style.color='#ef4444';msg.textContent='กรุณากรอกข้อมูลให้ครบ';return;}
+  const res=await apiCall({action:'register',username:u,password:p});
+  if(!res.ok){msg.style.color='#ef4444';msg.textContent=res.error;return;}
+  if(isAdm){await apiCall({action:'admin_set_flag',user:currentUser,target:u,flag:true});}
+  msg.style.color='#10b981';msg.textContent=`✅ เพิ่ม ${u} สำเร็จ`;
+  document.getElementById('new-user-name').value='';document.getElementById('new-user-pass').value='';
+  document.getElementById('new-user-admin').checked=false;
+  loadAdminUsers();
+}
+
 // Auto-login ถ้ายังมี session
 const sess=getCurrentUser();
-if(sess){initApp(sess);}
+if(sess){
+  const adminFlag=localStorage.getItem('mn_admin')==='1';
+  initApp(sess, adminFlag);
+}
 </script>
 </body>
 </html>
