@@ -186,6 +186,23 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
 .add-cat-row input{flex:1;padding:7px 10px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#111;outline:none}
 .tag{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border:1px solid #e5e7eb;border-radius:999px;font-size:12px;color:#111;margin:3px}
 .tag button{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:13px;line-height:1;padding:0}
+/* TAX */
+.ded-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f9fafb}
+.ded-label{flex:1;font-size:12px;color:#374151;line-height:1.4}
+.ded-fixed{font-size:12px;font-weight:500;color:#6b7280;white-space:nowrap}
+.ded-input{width:100px;padding:5px 8px;font-size:12px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb;color:#111;outline:none;text-align:right;flex-shrink:0}
+.ded-input:focus{border-color:#6366f1}
+.ded-amt{font-size:12px;font-weight:500;color:#6b7280;white-space:nowrap;min-width:60px;text-align:right}
+.ded-toggle{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+.ded-toggle input{opacity:0;width:0;height:0}
+.ded-toggle span{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#e5e7eb;border-radius:999px;transition:.2s}
+.ded-toggle span:before{position:absolute;content:"";height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.ded-toggle input:checked+span{background:#10b981}
+.ded-toggle input:checked+span:before{transform:translateX(16px)}
+.num-btn{width:24px;height:24px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0}
+.num-btn:hover{background:#e5e7eb}
+.bracket-row{display:flex;justify-content:space-between;font-size:11px;color:#c0c0d0;margin-bottom:3px}
+.bracket-row.active{color:#fff;font-weight:500}
 </style>
 </head>
 <body>
@@ -310,9 +327,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
   </div>
   <div class="nav-bottom">
     <button class="nav-item active" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item" onclick="showTab('tax',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>ภาษี</button>
     <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
-    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Admin</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
   </div>
 </div>
 
@@ -340,9 +358,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
   <div class="tx-list" id="h-tx-list"></div>
   <div class="nav-bottom">
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item" onclick="showTab('tax',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>ภาษี</button>
     <button class="nav-item active" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
-    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Admin</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
   </div>
 </div>
 
@@ -372,10 +391,156 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
   </div>
   <div class="nav-bottom">
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item" onclick="showTab('tax',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>ภาษี</button>
     <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item active" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
   </div>
 </div>
+
+<!-- TAX SCREEN -->
+<div id="screen-tax" class="screen">
+  <div class="topbar">
+    <div class="topbar-title">📄 คำนวณภาษีเงินได้</div>
+    <div class="topbar-user">
+      <div class="avatar" id="tax-avatar">U</div>
+      <span id="tax-username" style="font-size:13px;color:#6b7280"></span>
+    </div>
+  </div>
+
+  <!-- ปีภาษี + ดึงจาก MoneyNote -->
+  <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <div style="font-size:13px;font-weight:600;color:#111">รายได้ทั้งปี</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <select id="tax-year" onchange="onTaxYearChange()" style="padding:5px 8px;font-size:12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#111;outline:none"></select>
+        <button onclick="pullIncomeFromMN()" style="padding:5px 10px;font-size:11px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;color:#374151;white-space:nowrap">📥 ดึงจาก MoneyNote</button>
+      </div>
+    </div>
+    <div style="position:relative">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:14px">฿</span>
+      <input id="tax-income" type="number" min="0" step="1" placeholder="0" oninput="calcTax()"
+        style="width:100%;padding:10px 12px 10px 28px;font-size:20px;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;background:#f9fafb;color:#111;outline:none">
+    </div>
+    <div id="tax-income-note" style="font-size:11px;color:#9ca3af;margin-top:5px"></div>
+  </div>
+
+  <!-- ค่าลดหย่อน -->
+  <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+    <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">ค่าลดหย่อน</div>
+
+    <!-- ส่วนตัว/ครอบครัว -->
+    <div style="font-size:11px;font-weight:600;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">ส่วนตัว & ครอบครัว</div>
+    <div class="ded-row"><span class="ded-label">ค่าลดหย่อนส่วนตัว</span><span class="ded-fixed">60,000</span></div>
+    <div class="ded-row">
+      <span class="ded-label">คู่สมรส (ไม่มีเงินได้)</span>
+      <label class="ded-toggle"><input type="checkbox" id="ded-spouse" onchange="calcTax()"><span></span></label>
+      <span class="ded-amt" id="amt-spouse">0</span>
+    </div>
+    <div class="ded-row">
+      <span class="ded-label">บุตร (คนละ 30,000)</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="num-btn" onclick="changeNum('child',-1)">−</button>
+        <span id="num-child" style="font-size:13px;min-width:16px;text-align:center">0</span>
+        <button class="num-btn" onclick="changeNum('child',1)">+</button>
+      </div>
+      <span class="ded-amt" id="amt-child">0</span>
+    </div>
+    <div class="ded-row">
+      <span class="ded-label">ค่าเลี้ยงดูบิดามารดา (คนละ 30,000)</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="num-btn" onclick="changeNum('parent',-1)">−</button>
+        <span id="num-parent" style="font-size:13px;min-width:16px;text-align:center">0</span>
+        <button class="num-btn" onclick="changeNum('parent',1)">+</button>
+      </div>
+      <span class="ded-amt" id="amt-parent">0</span>
+    </div>
+
+    <!-- ประกัน/ออม -->
+    <div style="font-size:11px;font-weight:600;color:#6b7280;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">ประกัน & ออม</div>
+    <div class="ded-row"><span class="ded-label">เบี้ยประกันชีวิต (สูงสุด 100,000)</span><input class="ded-input" id="ded-life" type="number" min="0" max="100000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">เบี้ยประกันสุขภาพ (สูงสุด 25,000)</span><input class="ded-input" id="ded-health" type="number" min="0" max="25000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">ประกันสังคม</span><input class="ded-input" id="ded-sso" type="number" min="0" max="9000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">กองทุนสำรองเลี้ยงชีพ (สูงสุด 500,000)</span><input class="ded-input" id="ded-pvd" type="number" min="0" max="500000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">RMF (สูงสุด 30% ของรายได้, 500,000)</span><input class="ded-input" id="ded-rmf" type="number" min="0" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">SSF (สูงสุด 30% ของรายได้, 200,000)</span><input class="ded-input" id="ded-ssf" type="number" min="0" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">Thai ESG (สูงสุด 30% ของรายได้, 300,000)</span><input class="ded-input" id="ded-esg" type="number" min="0" placeholder="0" oninput="calcTax()"></div>
+
+    <!-- อื่นๆ -->
+    <div style="font-size:11px;font-weight:600;color:#6b7280;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">อื่นๆ</div>
+    <div class="ded-row"><span class="ded-label">ดอกเบี้ยบ้าน (สูงสุด 100,000)</span><input class="ded-input" id="ded-home" type="number" min="0" max="100000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">Easy E-Receipt 2568 (สูงสุด 50,000)</span><input class="ded-input" id="ded-ereceipt" type="number" min="0" max="50000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">บริจาคพรรคการเมือง (สูงสุด 10,000)</span><input class="ded-input" id="ded-donate-party" type="number" min="0" max="10000" placeholder="0" oninput="calcTax()"></div>
+    <div class="ded-row"><span class="ded-label">บริจาคเพื่อการศึกษา/สาธารณะ (2 เท่า)</span><input class="ded-input" id="ded-donate-edu" type="number" min="0" placeholder="0" oninput="calcTax()"></div>
+  </div>
+
+  <!-- สรุปผล -->
+  <div id="tax-result" style="background:linear-gradient(135deg,#1e1e2e,#2d2d44);border-radius:16px;padding:1.25rem;margin-bottom:1rem;color:#fff">
+    <div style="font-size:13px;color:#a0a0b0;margin-bottom:1rem">สรุปการคำนวณภาษี</div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:#d0d0e0">รายได้</span><span id="r-income" style="font-size:13px;font-weight:500">฿0</span></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:#d0d0e0">หัก ค่าใช้จ่าย 50% (สูงสุด 100,000)</span><span id="r-expense-ded" style="font-size:13px;font-weight:500;color:#f87171">-฿0</span></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:#d0d0e0">หัก ค่าลดหย่อนรวม</span><span id="r-deductions" style="font-size:13px;font-weight:500;color:#f87171">-฿0</span></div>
+    <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:.75rem"><span style="font-size:14px;color:#d0d0e0">เงินได้สุทธิ</span><span id="r-net" style="font-size:14px;font-weight:600">฿0</span></div>
+    <!-- tax brackets -->
+    <div id="r-brackets" style="margin-bottom:.75rem"></div>
+    <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:15px;color:#fff;font-weight:500">ภาษีที่ต้องจ่าย</span>
+      <span id="r-tax" style="font-size:24px;font-weight:700;color:#f87171">฿0</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px">
+      <span style="font-size:12px;color:#a0a0b0">อัตราภาษีที่แท้จริง</span>
+      <span id="r-eff-rate" style="font-size:12px;color:#a0a0b0">0%</span>
+    </div>
+
+    <!-- ภาษีหัก ณ ที่จ่าย -->
+    <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
+    <div style="font-size:12px;color:#a0a0b0;margin-bottom:6px">ภาษีหัก ณ ที่จ่าย (ที่นายจ้างหักไปแล้ว)</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
+      <span style="font-size:13px;color:#d0d0e0;flex:1">ภาษีที่ถูกหัก ณ ที่จ่าย</span>
+      <div style="position:relative">
+        <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:12px">฿</span>
+        <input id="tax-withheld" type="number" min="0" placeholder="0" oninput="calcTax()"
+          style="width:120px;padding:6px 8px 6px 22px;font-size:13px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(255,255,255,.1);color:#fff;outline:none;text-align:right">
+      </div>
+    </div>
+
+    <!-- สรุปสุทธิ -->
+    <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span id="r-net-label" style="font-size:14px;color:#fff;font-weight:600">ต้องจ่ายเพิ่ม</span>
+        <span id="r-net-tax" style="font-size:22px;font-weight:700;color:#f87171">฿0</span>
+      </div>
+      <div id="r-net-note" style="font-size:11px;color:#a0a0b0;margin-top:4px;text-align:right"></div>
+    </div>
+  </div>
+
+  <!-- ตารางขั้นบันได -->
+  <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:5rem">
+    <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">อัตราภาษีเงินได้บุคคลธรรมดา 2568</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:#f3f4f6"><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:500">เงินได้สุทธิ</th><th style="padding:6px 8px;text-align:right;color:#6b7280;font-weight:500">อัตรา</th></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">0 – 150,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;color:#10b981;font-weight:500">ยกเว้น</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">150,001 – 300,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">5%</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">300,001 – 500,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">10%</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">500,001 – 750,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">15%</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">750,001 – 1,000,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">20%</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">1,000,001 – 2,000,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">25%</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;color:#374151">2,000,001 – 5,000,000</td><td style="padding:6px 8px;border-bottom:1px solid #f3f4f6;text-align:right;font-weight:500">30%</td></tr>
+      <tr><td style="padding:6px 8px;color:#374151">5,000,001 ขึ้นไป</td><td style="padding:6px 8px;text-align:right;font-weight:500;color:#ef4444">35%</td></tr>
+    </table>
+  </div>
+
+  <div class="nav-bottom">
+    <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item active" onclick="showTab('tax',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>ภาษี</button>
+    <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
+    <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
+    <button class="nav-item admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
+  </div>
+</div>
+
 </div>
 
 <!-- ADMIN SCREEN -->
@@ -431,9 +596,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
 
   <div class="nav-bottom">
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
+    <button class="nav-item" onclick="showTab('tax',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>ภาษี</button>
     <button class="nav-item" onclick="showTab('history',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ประวัติ</button>
     <button class="nav-item" onclick="showTab('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า</button>
-    <button class="nav-item active" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
+    <button class="nav-item active admin-only" style="display:none" onclick="showTab('admin',this)"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Admin</button>
   </div>
 </div>
 </div>
@@ -581,6 +747,8 @@ async function initApp(u, adminFlag){
 
   document.getElementById('avatar-initials').textContent=u[0].toUpperCase();
   document.getElementById('topbar-username').textContent=u;
+  document.getElementById('tax-avatar').textContent=u[0].toUpperCase();
+  document.getElementById('tax-username').textContent=u;
   // show/hide admin nav buttons
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdminUser?'flex':'none');
   document.getElementById('admin-avatar').textContent=u[0].toUpperCase();
@@ -972,6 +1140,7 @@ let isAdminUser = false;
 
 function showTab(tab,btn){
   if(tab==='main'){showScreen('main');renderDashboard()}
+  else if(tab==='tax'){showScreen('tax');initTaxScreen()}
   else if(tab==='history'){showScreen('history');initHistDate();renderHistory()}
   else if(tab==='settings'){showScreen('settings');renderCatSettings()}
   else if(tab==='admin'&&isAdminUser){showScreen('admin');loadAdminTab();}
@@ -1052,6 +1221,147 @@ function showUserSummary(){
     </div>`;
 }
 
+// ── TAX CALCULATOR ──────────────────────────────────
+const TAX_BRACKETS=[
+  {min:0,max:150000,rate:0},
+  {min:150000,max:300000,rate:0.05},
+  {min:300000,max:500000,rate:0.10},
+  {min:500000,max:750000,rate:0.15},
+  {min:750000,max:1000000,rate:0.20},
+  {min:1000000,max:2000000,rate:0.25},
+  {min:2000000,max:5000000,rate:0.30},
+  {min:5000000,max:Infinity,rate:0.35}
+];
+
+let numChild=0,numParent=0;
+
+function initTaxScreen(){
+  // เติมปีให้เลือก
+  const now=new Date();
+  const sel=document.getElementById('tax-year');
+  if(sel.options.length===0){
+    for(let y=now.getFullYear();y>=now.getFullYear()-3;y--){
+      const opt=document.createElement('option');
+      opt.value=y;opt.textContent=`ปี ${y+543} (${y})`;
+      sel.appendChild(opt);
+    }
+  }
+  calcTax();
+}
+
+function onTaxYearChange(){
+  document.getElementById('tax-income-note').textContent='';
+  calcTax();
+}
+
+function pullIncomeFromMN(){
+  const year=parseInt(document.getElementById('tax-year').value);
+  const txs=userData.transactions.filter(t=>t.type==='income'&&t.date&&t.date.startsWith(String(year)));
+  const total=txs.reduce((s,t)=>s+t.amount,0);
+  document.getElementById('tax-income').value=total;
+  document.getElementById('tax-income-note').textContent=`ดึงรายได้ปี ${year+543} จาก MoneyNote: ${txs.length} รายการ`;
+  calcTax();
+}
+
+function changeNum(type,delta){
+  if(type==='child'){numChild=Math.max(0,numChild+delta);document.getElementById('num-child').textContent=numChild;}
+  if(type==='parent'){numParent=Math.max(0,Math.min(2,numParent+delta));document.getElementById('num-parent').textContent=numParent;}
+  calcTax();
+}
+
+function getVal(id,max){
+  const v=parseFloat(document.getElementById(id).value)||0;
+  return max?Math.min(v,max):v;
+}
+
+function calcTax(){
+  const income=parseFloat(document.getElementById('tax-income').value)||0;
+
+  // ค่าใช้จ่าย 50% สูงสุด 100,000
+  const expDed=Math.min(income*0.5,100000);
+
+  // ค่าลดหย่อน
+  const personal=60000;
+  const spouse=document.getElementById('ded-spouse').checked?60000:0;
+  document.getElementById('amt-spouse').textContent=spouse?'60,000':'0';
+  const child=numChild*30000;
+  document.getElementById('amt-child').textContent=child.toLocaleString('th-TH');
+  const parent=numParent*30000;
+  document.getElementById('amt-parent').textContent=parent.toLocaleString('th-TH');
+
+  const life=getVal('ded-life',100000);
+  const health=getVal('ded-health',25000);
+  // ประกันสุขภาพรวมกับชีวิตไม่เกิน 100,000
+  const lifeHealthTotal=Math.min(life+health,100000);
+  const sso=getVal('ded-sso',9000);
+  const pvd=getVal('ded-pvd',500000);
+  const rmf=Math.min(getVal('ded-rmf'),income*0.30,500000);
+  const ssf=Math.min(getVal('ded-ssf'),income*0.30,200000);
+  const esg=Math.min(getVal('ded-esg'),income*0.30,300000);
+  // กองทุนรวมเพื่อการออมรวมกันไม่เกิน 500,000
+  const fundTotal=Math.min(rmf+ssf+esg,500000);
+  const home=getVal('ded-home',100000);
+  const ereceipt=getVal('ded-ereceipt',50000);
+  const donateParty=getVal('ded-donate-party',10000);
+  const donateEdu=Math.min(getVal('ded-donate-edu')*2, income*0.10);
+
+  const totalDed=personal+spouse+child+parent+lifeHealthTotal+sso+pvd+fundTotal+home+ereceipt+donateParty+donateEdu;
+  const netIncome=Math.max(0,income-expDed-totalDed);
+
+  // คำนวณภาษีขั้นบันได
+  let tax=0;
+  const bracketDetails=[];
+  for(const b of TAX_BRACKETS){
+    if(netIncome<=b.min) break;
+    const taxable=Math.min(netIncome,b.max)-b.min;
+    const t=taxable*b.rate;
+    tax+=t;
+    if(b.rate>0) bracketDetails.push({label:`${fmtN(b.min+1)}–${b.max===Infinity?'ขึ้นไป':fmtN(b.max)}`,rate:`${b.rate*100}%`,tax:t,active:true});
+    else bracketDetails.push({label:`0–150,000`,rate:'ยกเว้น',tax:0,active:netIncome>0});
+  }
+
+  const effRate=income>0?((tax/income)*100).toFixed(2):0;
+
+  // แสดงผล
+  document.getElementById('r-income').textContent='฿'+fmtN(income);
+  document.getElementById('r-expense-ded').textContent='-฿'+fmtN(expDed);
+  document.getElementById('r-deductions').textContent='-฿'+fmtN(totalDed);
+  document.getElementById('r-net').textContent='฿'+fmtN(netIncome);
+  document.getElementById('r-tax').textContent='฿'+fmtN(Math.round(tax));
+  document.getElementById('r-eff-rate').textContent=`อัตราแท้จริง ${effRate}%`;
+  document.getElementById('r-brackets').innerHTML=bracketDetails.map(b=>`
+    <div class="bracket-row ${b.active?'active':''}">
+      <span>${b.label} × ${b.rate}</span>
+      <span>${b.tax>0?'฿'+fmtN(Math.round(b.tax)):'-'}</span>
+    </div>`).join('');
+
+  // ภาษีหัก ณ ที่จ่าย
+  const withheld=parseFloat(document.getElementById('tax-withheld').value)||0;
+  const netTax=Math.round(tax)-withheld;
+  const netLabel=document.getElementById('r-net-label');
+  const netAmt=document.getElementById('r-net-tax');
+  const netNote=document.getElementById('r-net-note');
+  if(netTax>0){
+    netLabel.textContent='ต้องจ่ายเพิ่ม';
+    netAmt.textContent='฿'+fmtN(netTax);
+    netAmt.style.color='#f87171';
+    netNote.textContent=`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheld)}`;
+  } else if(netTax<0){
+    netLabel.textContent='ได้รับคืน 🎉';
+    netAmt.textContent='฿'+fmtN(Math.abs(netTax));
+    netAmt.style.color='#34d399';
+    netNote.textContent=`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheld)}`;
+  } else {
+    netLabel.textContent='พอดี ไม่ต้องจ่ายเพิ่ม';
+    netAmt.textContent='฿0';
+    netAmt.style.color='#34d399';
+    netNote.textContent='';
+  }
+}
+
+function fmtN(n){return Math.abs(n).toLocaleString('th-TH',{maximumFractionDigits:0});}
+
+// ── Auto-login ──
 // Auto-login ถ้ายังมี session
 const sess=getCurrentUser();
 if(sess){
