@@ -417,12 +417,85 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
         <button onclick="pullIncomeFromMN()" style="padding:5px 10px;font-size:11px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;color:#374151;white-space:nowrap">📥 ดึงจาก MoneyNote</button>
       </div>
     </div>
-    <div style="position:relative">
+
+    <!-- รายได้จากเงินเดือน/ทั่วไป (ประเภท 1) -->
+    <div style="font-size:11px;color:#6b7280;margin-bottom:4px">รายได้จากเงินเดือน / ค่าจ้าง / รายได้ทั่วไป</div>
+    <div style="position:relative;margin-bottom:.75rem">
       <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:14px">฿</span>
       <input id="tax-income" type="number" min="0" step="1" placeholder="0" oninput="calcTax()"
-        style="width:100%;padding:10px 12px 10px 28px;font-size:20px;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;background:#f9fafb;color:#111;outline:none">
+        style="width:100%;padding:10px 12px 10px 28px;font-size:18px;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;background:#f9fafb;color:#111;outline:none">
     </div>
-    <div id="tax-income-note" style="font-size:11px;color:#9ca3af;margin-top:5px"></div>
+    <div id="tax-income-note" style="font-size:11px;color:#9ca3af;margin-bottom:.75rem"></div>
+
+    <!-- รายได้จากหุ้น/ปันผล (ประเภท 4/8) -->
+    <div style="font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px">รายได้จากหุ้น / ปันผล / กำไรจากหุ้น</div>
+    <div style="background:#fafafa;border:1px solid #f3f4f6;border-radius:10px;padding:.75rem;margin-bottom:.5rem">
+      <div class="ded-row" style="border:none;padding:4px 0">
+        <span class="ded-label">เงินปันผลหุ้นไทย</span>
+        <input class="ded-input" id="tax-div-th" type="number" min="0" placeholder="0" oninput="calcTax()">
+      </div>
+      <!-- วิธีคำนวณปันผลไทย -->
+      <div style="background:#f0f9ff;border-radius:8px;padding:8px 10px;margin:4px 0 6px">
+        <div style="font-size:11px;font-weight:600;color:#0369a1;margin-bottom:6px">วิธีคำนวณภาษีปันผลไทย</div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;margin-bottom:4px;cursor:pointer">
+          <input type="radio" name="div-method" id="div-final" value="final" checked onchange="calcTax()" style="width:14px;height:14px">
+          <span><b>หัก ณ ที่จ่าย 10% จบ (Final Tax)</b><br><span style="font-size:10px;color:#6b7280">ไม่นำไปรวมคำนวณ — เหมาะถ้าภาษีขั้นบันไดสูงกว่า 10%</span></span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#374151;cursor:pointer">
+          <input type="radio" name="div-method" id="div-credit" value="credit" onchange="calcTax()" style="width:14px;height:14px;margin-top:2px">
+          <span><b>ขอเครดิตภาษีคืน (Tax Credit)</b><br><span style="font-size:10px;color:#6b7280">นำไปรวมคำนวณ + ขอเครดิต — เหมาะถ้าภาษีขั้นบันไดต่ำกว่า 10%</span></span>
+        </label>
+        <!-- อัตราภาษีนิติบุคคล (แสดงเฉพาะตอนเลือก credit) -->
+        <div id="corp-tax-wrap" style="display:none;margin-top:8px">
+          <div style="font-size:11px;color:#0369a1;margin-bottom:4px">อัตราภาษีนิติบุคคลของบริษัทที่จ่ายปันผล</div>
+          <select id="corp-tax-rate" onchange="calcTax()" style="width:100%;padding:6px 8px;font-size:12px;border:1px solid #bae6fd;border-radius:6px;background:#fff;color:#111;outline:none">
+            <option value="20">20% (บริษัทจดทะเบียนในตลาดหลักทรัพย์ทั่วไป)</option>
+            <option value="15">15% (SME / บริษัทขนาดเล็ก)</option>
+            <option value="10">10% (บริษัทขนาดเล็กพิเศษ)</option>
+            <option value="25">25%</option>
+            <option value="30">30%</option>
+          </select>
+          <div class="ded-row" style="border:none;padding:4px 0;margin-top:4px">
+            <span class="ded-label" style="color:#0369a1">เครดิตภาษีที่ได้รับ</span>
+            <span class="ded-amt" id="amt-div-credit" style="color:#0369a1;font-weight:600">฿0</span>
+          </div>
+          <div style="font-size:10px;color:#9ca3af;margin-top:4px">เครดิตภาษี = ปันผล × อัตราภาษีนิติบุคคล ÷ (1 − อัตราภาษีนิติบุคคล)</div>
+        </div>
+      </div>
+      <div class="ded-row" style="border:none;padding:4px 0">
+        <span class="ded-label" style="color:#9ca3af;font-size:11px">ภาษีหัก ณ ที่จ่ายจากปันผลไทย (10%)</span>
+        <span class="ded-amt" id="amt-div-th-wh" style="color:#6366f1">฿0</span>
+      </div>
+      <div class="ded-row" style="border:none;padding:4px 0">
+        <span class="ded-label">เงินปันผลหุ้นต่างประเทศ (รวมในรายได้)</span>
+        <input class="ded-input" id="tax-div-foreign" type="number" min="0" placeholder="0" oninput="calcTax()">
+      </div>
+      <div class="ded-row" style="border:none;padding:4px 0">
+        <span class="ded-label">กำไรจากขายหุ้นต่างประเทศ (รวมในรายได้)</span>
+        <input class="ded-input" id="tax-cap-foreign" type="number" min="0" placeholder="0" oninput="calcTax()">
+      </div>
+      <div style="font-size:10px;color:#9ca3af;margin-top:6px;line-height:1.5">
+        💡 กำไรหุ้นไทยในตลาดหลักทรัพย์ได้รับยกเว้นภาษี<br>
+        ปันผลไทย: เลือกได้ว่าจะรวมคำนวณหรือให้หัก 10% จบ
+      </div>
+    </div>
+
+    <!-- ภาษีหัก ณ ที่จ่าย — อยู่ด้านบนใกล้รายได้ -->
+    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:.75rem;margin-bottom:.5rem">
+      <div style="font-size:11px;font-weight:600;color:#92400e;margin-bottom:8px">🏦 ภาษีหัก ณ ที่จ่าย (ที่ถูกหักไปแล้วตลอดปี)</div>
+      <div class="ded-row" style="border:none;padding:3px 0">
+        <span class="ded-label" style="color:#78350f">จากนายจ้าง (ดูจากหนังสือ 50 ทวิ)</span>
+        <input class="ded-input" id="tax-withheld" type="number" min="0" placeholder="0" oninput="calcTax()" style="border-color:#fed7aa;background:#fff">
+      </div>
+      <div class="ded-row" style="border:none;padding:3px 0">
+        <span class="ded-label" style="color:#9ca3af;font-size:11px">จากปันผลหุ้นไทย (คำนวณอัตโนมัติ 10%)</span>
+        <span class="ded-amt" id="amt-div-wh-display" style="color:#6366f1">฿0</span>
+      </div>
+      <div class="ded-row" style="border:none;padding:3px 0;border-top:1px dashed #fed7aa;margin-top:4px">
+        <span class="ded-label" style="color:#92400e;font-weight:600">รวมภาษีที่ถูกหักทั้งหมด</span>
+        <span class="ded-amt" id="amt-total-wh" style="color:#92400e;font-weight:600">฿0</span>
+      </div>
+    </div>
   </div>
 
   <!-- ค่าลดหย่อน -->
@@ -494,19 +567,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
       <span id="r-eff-rate" style="font-size:12px;color:#a0a0b0">0%</span>
     </div>
 
-    <!-- ภาษีหัก ณ ที่จ่าย -->
-    <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
-    <div style="font-size:12px;color:#a0a0b0;margin-bottom:6px">ภาษีหัก ณ ที่จ่าย (ที่นายจ้างหักไปแล้ว)</div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
-      <span style="font-size:13px;color:#d0d0e0;flex:1">ภาษีที่ถูกหัก ณ ที่จ่าย</span>
-      <div style="position:relative">
-        <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:12px">฿</span>
-        <input id="tax-withheld" type="number" min="0" placeholder="0" oninput="calcTax()"
-          style="width:120px;padding:6px 8px 6px 22px;font-size:13px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(255,255,255,.1);color:#fff;outline:none;text-align:right">
-      </div>
-    </div>
-
     <!-- สรุปสุทธิ -->
+    <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
     <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:.75rem">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span id="r-net-label" style="font-size:14px;color:#fff;font-weight:600">ต้องจ่ายเพิ่ม</span>
@@ -515,6 +577,14 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
       <div id="r-net-note" style="font-size:11px;color:#a0a0b0;margin-top:4px;text-align:right"></div>
     </div>
   </div>
+
+  <!-- ปุ่ม Save -->
+  <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem;display:flex;gap:8px">
+    <button onclick="saveTaxData()" style="flex:1;padding:10px;background:#111;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer">💾 บันทึกข้อมูลภาษี</button>
+    <button onclick="loadTaxData()" style="padding:10px 14px;background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:10px;font-size:13px;cursor:pointer">📂 โหลด</button>
+    <button onclick="clearTaxData()" style="padding:10px 14px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:10px;font-size:13px;cursor:pointer">🗑️</button>
+  </div>
+  <div id="tax-save-msg" style="font-size:12px;text-align:center;color:#10b981;margin:-8px 0 8px"></div>
 
   <!-- ตารางขั้นบันได -->
   <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:5rem">
@@ -1276,39 +1346,57 @@ function getVal(id,max){
 
 function calcTax(){
   const income=parseFloat(document.getElementById('tax-income').value)||0;
+  const divTh=parseFloat(document.getElementById('tax-div-th').value)||0;
+  const divForeign=parseFloat(document.getElementById('tax-div-foreign').value)||0;
+  const capForeign=parseFloat(document.getElementById('tax-cap-foreign').value)||0;
+  const divThWh=Math.round(divTh*0.10); // ภาษีหัก ณ ที่จ่าย 10%
 
-  // ค่าใช้จ่าย 50% สูงสุด 100,000
+  // วิธีคำนวณปันผลไทย
+  const divMethod=document.querySelector('input[name="div-method"]:checked')?.value||'final';
+  const corpWrap=document.getElementById('corp-tax-wrap');
+  corpWrap.style.display=divMethod==='credit'?'block':'none';
+
+  let divCredit=0;
+  let divTaxableIncome=0; // รายได้ปันผลที่นำไปรวมคำนวณ
+
+  if(divMethod==='final'){
+    // Final Tax: ไม่นำปันผลไทยไปรวม แต่หัก 10% จบ
+    divTaxableIncome=0;
+    divCredit=0;
+    document.getElementById('amt-div-credit').textContent='฿0';
+  } else {
+    // Tax Credit: นำปันผล + เครดิตไปรวมคำนวณ
+    const corpRate=parseFloat(document.getElementById('corp-tax-rate').value)/100;
+    divCredit=Math.round(divTh*(corpRate/(1-corpRate)));
+    divTaxableIncome=divTh+divCredit; // รายได้ที่ต้องนำไปรวม
+    document.getElementById('amt-div-credit').textContent='฿'+fmtN(divCredit);
+  }
+
+  document.getElementById('amt-div-th-wh').textContent='฿'+fmtN(divThWh);
+  const totalIncome=income+divTaxableIncome+divForeign+capForeign;
   const expDed=Math.min(income*0.5,100000);
-
-  // ค่าลดหย่อน
   const personal=60000;
   const spouse=document.getElementById('ded-spouse').checked?60000:0;
   document.getElementById('amt-spouse').textContent=spouse?'60,000':'0';
   const child=numChild*30000;
-  document.getElementById('amt-child').textContent=child.toLocaleString('th-TH');
+  document.getElementById('amt-child').textContent=fmtN(child);
   const parent=numParent*30000;
-  document.getElementById('amt-parent').textContent=parent.toLocaleString('th-TH');
-
+  document.getElementById('amt-parent').textContent=fmtN(parent);
   const life=getVal('ded-life',100000);
   const health=getVal('ded-health',25000);
-  // ประกันสุขภาพรวมกับชีวิตไม่เกิน 100,000
   const lifeHealthTotal=Math.min(life+health,100000);
   const sso=getVal('ded-sso',9000);
   const pvd=getVal('ded-pvd',500000);
-  const rmf=Math.min(getVal('ded-rmf'),income*0.30,500000);
-  const ssf=Math.min(getVal('ded-ssf'),income*0.30,200000);
-  const esg=Math.min(getVal('ded-esg'),income*0.30,300000);
-  // กองทุนรวมเพื่อการออมรวมกันไม่เกิน 500,000
+  const rmf=Math.min(getVal('ded-rmf'),totalIncome*0.30,500000);
+  const ssf=Math.min(getVal('ded-ssf'),totalIncome*0.30,200000);
+  const esg=Math.min(getVal('ded-esg'),totalIncome*0.30,300000);
   const fundTotal=Math.min(rmf+ssf+esg,500000);
   const home=getVal('ded-home',100000);
   const ereceipt=getVal('ded-ereceipt',50000);
   const donateParty=getVal('ded-donate-party',10000);
-  const donateEdu=Math.min(getVal('ded-donate-edu')*2, income*0.10);
-
+  const donateEdu=Math.min(getVal('ded-donate-edu')*2,totalIncome*0.10);
   const totalDed=personal+spouse+child+parent+lifeHealthTotal+sso+pvd+fundTotal+home+ereceipt+donateParty+donateEdu;
-  const netIncome=Math.max(0,income-expDed-totalDed);
-
-  // คำนวณภาษีขั้นบันได
+  const netIncome=Math.max(0,totalIncome-expDed-totalDed);
   let tax=0;
   const bracketDetails=[];
   for(const b of TAX_BRACKETS){
@@ -1317,13 +1405,10 @@ function calcTax(){
     const t=taxable*b.rate;
     tax+=t;
     if(b.rate>0) bracketDetails.push({label:`${fmtN(b.min+1)}–${b.max===Infinity?'ขึ้นไป':fmtN(b.max)}`,rate:`${b.rate*100}%`,tax:t,active:true});
-    else bracketDetails.push({label:`0–150,000`,rate:'ยกเว้น',tax:0,active:netIncome>0});
+    else bracketDetails.push({label:'0–150,000',rate:'ยกเว้น',tax:0,active:netIncome>0});
   }
-
-  const effRate=income>0?((tax/income)*100).toFixed(2):0;
-
-  // แสดงผล
-  document.getElementById('r-income').textContent='฿'+fmtN(income);
+  const effRate=totalIncome>0?((tax/totalIncome)*100).toFixed(2):0;
+  document.getElementById('r-income').textContent='฿'+fmtN(totalIncome);
   document.getElementById('r-expense-ded').textContent='-฿'+fmtN(expDed);
   document.getElementById('r-deductions').textContent='-฿'+fmtN(totalDed);
   document.getElementById('r-net').textContent='฿'+fmtN(netIncome);
@@ -1334,32 +1419,77 @@ function calcTax(){
       <span>${b.label} × ${b.rate}</span>
       <span>${b.tax>0?'฿'+fmtN(Math.round(b.tax)):'-'}</span>
     </div>`).join('');
+  const withheldManual=parseFloat(document.getElementById('tax-withheld').value)||0;
+  // ถ้า credit method: เครดิตภาษีหักจากภาษีที่คำนวณได้โดยตรง
+  // ถ้า final method: ภาษีหัก 10% จากปันผลถือเป็นภาษีที่จ่ายแล้ว
+  const divThWh10=(divMethod==='final')?divThWh:0; // final = นับเป็น withheld
+  const totalWithheld=withheldManual+divThWh10;
+  const netTax=Math.round(tax)-totalWithheld-(divMethod==='credit'?divCredit:0);
 
-  // ภาษีหัก ณ ที่จ่าย
-  const withheld=parseFloat(document.getElementById('tax-withheld').value)||0;
-  const netTax=Math.round(tax)-withheld;
+  // อัพเดทกล่องสรุปภาษีหัก ณ ที่จ่าย
+  document.getElementById('amt-div-wh-display').textContent='฿'+fmtN(divThWh)+(divMethod==='credit'?' (ใช้เป็นเครดิตแทน)':'');
+  document.getElementById('amt-total-wh').textContent=divMethod==='final'?'฿'+fmtN(totalWithheld):'฿'+fmtN(withheldManual)+' + เครดิต ฿'+fmtN(divCredit);
   const netLabel=document.getElementById('r-net-label');
   const netAmt=document.getElementById('r-net-tax');
   const netNote=document.getElementById('r-net-note');
   if(netTax>0){
-    netLabel.textContent='ต้องจ่ายเพิ่ม';
-    netAmt.textContent='฿'+fmtN(netTax);
-    netAmt.style.color='#f87171';
-    netNote.textContent=`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheld)}`;
+    netLabel.textContent='ต้องจ่ายเพิ่ม';netAmt.textContent='฿'+fmtN(netTax);netAmt.style.color='#f87171';
+    netNote.textContent=divMethod==='credit'
+      ?`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheldManual)} − เครดิต ฿${fmtN(divCredit)}`
+      :`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่ายรวม ฿${fmtN(totalWithheld)}`;
   } else if(netTax<0){
-    netLabel.textContent='ได้รับคืน 🎉';
-    netAmt.textContent='฿'+fmtN(Math.abs(netTax));
-    netAmt.style.color='#34d399';
-    netNote.textContent=`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheld)}`;
+    netLabel.textContent='ได้รับคืน 🎉';netAmt.textContent='฿'+fmtN(Math.abs(netTax));netAmt.style.color='#34d399';
+    netNote.textContent=divMethod==='credit'
+      ?`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่าย ฿${fmtN(withheldManual)} − เครดิต ฿${fmtN(divCredit)}`
+      :`ภาษีรวม ฿${fmtN(Math.round(tax))} − หัก ณ ที่จ่ายรวม ฿${fmtN(totalWithheld)}`;
   } else {
-    netLabel.textContent='พอดี ไม่ต้องจ่ายเพิ่ม';
-    netAmt.textContent='฿0';
-    netAmt.style.color='#34d399';
-    netNote.textContent='';
+    netLabel.textContent='พอดี ไม่ต้องจ่ายเพิ่ม ✅';netAmt.textContent='฿0';netAmt.style.color='#34d399';netNote.textContent='';
   }
 }
 
-function fmtN(n){return Math.abs(n).toLocaleString('th-TH',{maximumFractionDigits:0});}
+function fmtN(n){return Math.abs(Math.round(n)).toLocaleString('th-TH');}
+
+function saveTaxData(){
+  const year=document.getElementById('tax-year').value;
+  const ids=['tax-income','tax-div-th','tax-div-foreign','tax-cap-foreign','ded-life','ded-health','ded-sso','ded-pvd','ded-rmf','ded-ssf','ded-esg','ded-home','ded-ereceipt','ded-donate-party','ded-donate-edu','tax-withheld','corp-tax-rate'];
+  const data={year,spouse:document.getElementById('ded-spouse').checked,child:numChild,parent:numParent,divMethod:document.querySelector('input[name="div-method"]:checked')?.value||'final'};
+  ids.forEach(id=>data[id]=document.getElementById(id).value||'');
+  try{localStorage.setItem('mn_tax_'+currentUser+'_'+year,JSON.stringify(data));}catch(e){}
+  const msg=document.getElementById('tax-save-msg');
+  msg.textContent='✅ บันทึกข้อมูลภาษีปี '+(parseInt(year)+543)+' แล้ว';
+  setTimeout(()=>msg.textContent='',2500);
+}
+
+function loadTaxData(){
+  const year=document.getElementById('tax-year').value;
+  try{
+    const raw=localStorage.getItem('mn_tax_'+currentUser+'_'+year);
+    if(!raw){alert('ไม่พบข้อมูลที่บันทึกไว้สำหรับปี '+(parseInt(year)+543));return;}
+    const data=JSON.parse(raw);
+    const ids=['tax-income','tax-div-th','tax-div-foreign','tax-cap-foreign','ded-life','ded-health','ded-sso','ded-pvd','ded-rmf','ded-ssf','ded-esg','ded-home','ded-ereceipt','ded-donate-party','ded-donate-edu','tax-withheld','corp-tax-rate'];
+    ids.forEach(id=>{if(data[id]!==undefined)document.getElementById(id).value=data[id];});
+    document.getElementById('ded-spouse').checked=data.spouse||false;
+    numChild=data.child||0;numParent=data.parent||0;
+    document.getElementById('num-child').textContent=numChild;
+    document.getElementById('num-parent').textContent=numParent;
+    if(data.divMethod){const radio=document.querySelector(`input[name="div-method"][value="${data.divMethod}"]`);if(radio)radio.checked=true;}
+    calcTax();
+    const msg=document.getElementById('tax-save-msg');
+    msg.textContent='📂 โหลดข้อมูลภาษีปี '+(parseInt(year)+543)+' แล้ว';
+    setTimeout(()=>msg.textContent='',2500);
+  }catch(e){alert('โหลดข้อมูลไม่สำเร็จ');}
+}
+
+function clearTaxData(){
+  if(!confirm('ล้างข้อมูลภาษีทั้งหมด?')) return;
+  const ids=['tax-income','tax-div-th','tax-div-foreign','tax-cap-foreign','ded-life','ded-health','ded-sso','ded-pvd','ded-rmf','ded-ssf','ded-esg','ded-home','ded-ereceipt','ded-donate-party','ded-donate-edu','tax-withheld','corp-tax-rate'];
+  ids.forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ded-spouse').checked=false;
+  numChild=0;numParent=0;
+  document.getElementById('num-child').textContent=0;
+  document.getElementById('num-parent').textContent=0;
+  calcTax();
+}
 
 // ── Auto-login ──
 // Auto-login ถ้ายังมี session
