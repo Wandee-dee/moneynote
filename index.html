@@ -401,12 +401,21 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
 <!-- TAX SCREEN -->
 <div id="screen-tax" class="screen">
   <div class="topbar">
-    <div class="topbar-title">📄 คำนวณภาษีเงินได้</div>
+    <div class="topbar-title">📄 ภาษีเงินได้</div>
     <div class="topbar-user">
       <div class="avatar" id="tax-avatar">U</div>
       <span id="tax-username" style="font-size:13px;color:#6b7280"></span>
     </div>
   </div>
+
+  <!-- SUB TABS -->
+  <div class="period-tabs" style="margin-bottom:1rem">
+    <button class="tab active" id="ttab-calc" onclick="switchTaxTab('calc',this)">📋 คำนวณภาษี</button>
+    <button class="tab" id="ttab-plan" onclick="switchTaxTab('plan',this)">🔮 ประมาณการ</button>
+  </div>
+
+  <!-- TAB: คำนวณภาษี -->
+  <div id="tax-panel-calc">
 
   <!-- ปีภาษี + ดึงจาก MoneyNote -->
   <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
@@ -601,6 +610,116 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;min-heigh
       <tr><td style="padding:6px 8px;color:#374151">5,000,001 ขึ้นไป</td><td style="padding:6px 8px;text-align:right;font-weight:500;color:#ef4444">35%</td></tr>
     </table>
   </div>
+
+  </div><!-- end tax-panel-calc -->
+
+  <!-- TAB: ประมาณการภาษี -->
+  <div id="tax-panel-plan" style="display:none">
+
+    <!-- รายได้ต่อเดือน -->
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.75rem">รายได้ & ค่าลดหย่อนพื้นฐาน</div>
+
+      <div style="font-size:11px;color:#6b7280;margin-bottom:4px">เงินเดือนต่อเดือน</div>
+      <div style="display:flex;gap:8px;margin-bottom:.75rem;align-items:center">
+        <div style="position:relative;flex:1">
+          <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:13px">฿</span>
+          <input id="plan-salary" type="number" min="0" placeholder="0" oninput="calcPlan()"
+            style="width:100%;padding:8px 8px 8px 24px;font-size:16px;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;background:#f9fafb;color:#111;outline:none">
+        </div>
+        <button onclick="pullSalaryFromMN()" style="padding:7px 10px;font-size:11px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;color:#374151;white-space:nowrap;flex-shrink:0">📥 จาก MoneyNote</button>
+      </div>
+      <div id="plan-salary-note" style="font-size:11px;color:#9ca3af;margin-top:-8px;margin-bottom:.75rem"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem">
+        <div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:4px">จำนวนเดือนที่ทำงาน</div>
+          <select id="plan-months" onchange="calcPlan()" style="width:100%;padding:7px 8px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#111;outline:none">
+            <option value="12">12 เดือน (เต็มปี)</option>
+            <option value="11">11 เดือน</option>
+            <option value="10">10 เดือน</option>
+            <option value="9">9 เดือน</option>
+            <option value="6">6 เดือน</option>
+            <option value="3">3 เดือน</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:4px">โบนัส (เดือน)</div>
+          <input id="plan-bonus-months" type="number" min="0" max="12" step="0.5" placeholder="0" oninput="calcPlan()"
+            style="width:100%;padding:7px 8px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;color:#111;outline:none">
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:#6b7280;margin-bottom:4px">ค่าลดหย่อนรวมต่อปี (ประกัน, RMF, SSF ฯลฯ)</div>
+      <div style="position:relative">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:13px">฿</span>
+        <input id="plan-deductions" type="number" min="0" placeholder="0" oninput="calcPlan()"
+          style="width:100%;padding:7px 8px 7px 24px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;color:#111;outline:none">
+      </div>
+      <div style="font-size:10px;color:#9ca3af;margin-top:4px">💡 ค่าลดหย่อนส่วนตัว 60,000 รวมให้อัตโนมัติแล้ว</div>
+    </div>
+
+    <!-- ผลประมาณการ -->
+    <div style="background:linear-gradient(135deg,#1e1e2e,#2d2d44);border-radius:16px;padding:1.25rem;margin-bottom:1rem;color:#fff">
+      <div style="font-size:13px;color:#a0a0b0;margin-bottom:1rem">ประมาณการภาษีทั้งปี</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem">
+        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem">
+          <div style="font-size:10px;color:#a0a0b0;margin-bottom:3px">รายได้รวมทั้งปี</div>
+          <div id="plan-r-income" style="font-size:15px;font-weight:600;color:#fff">฿0</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem">
+          <div style="font-size:10px;color:#a0a0b0;margin-bottom:3px">หัก ค่าใช้จ่าย+ลดหย่อน</div>
+          <div id="plan-r-ded" style="font-size:15px;font-weight:600;color:#f87171">฿0</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem">
+          <div style="font-size:10px;color:#a0a0b0;margin-bottom:3px">เงินได้สุทธิ</div>
+          <div id="plan-r-net" style="font-size:15px;font-weight:600;color:#fff">฿0</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem">
+          <div style="font-size:10px;color:#a0a0b0;margin-bottom:3px">อัตราภาษีแท้จริง</div>
+          <div id="plan-r-rate" style="font-size:15px;font-weight:600;color:#fbbf24">0%</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:rgba(255,255,255,.15);margin:.75rem 0"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+        <span style="font-size:14px;color:#fff">ภาษีที่ต้องจ่ายทั้งปี</span>
+        <span id="plan-r-tax-year" style="font-size:22px;font-weight:700;color:#f87171">฿0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:#d0d0e0">ควรถูกหัก ณ ที่จ่ายต่อเดือน</span>
+        <span id="plan-r-tax-month" style="font-size:18px;font-weight:600;color:#f87171">฿0</span>
+      </div>
+    </div>
+
+    <!-- วางแผนลดหย่อนเพิ่ม -->
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:.25rem">💡 ถ้าซื้อลดหย่อนเพิ่ม จะประหยัดได้เท่าไหร่?</div>
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:.75rem">ลองกรอกยอดลดหย่อนที่วางแผนจะซื้อเพิ่ม</div>
+      <div style="position:relative;margin-bottom:.75rem">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:13px">฿</span>
+        <input id="plan-extra-ded" type="number" min="0" placeholder="0" oninput="calcPlan()"
+          style="width:100%;padding:7px 8px 7px 24px;font-size:13px;border:1px solid #6366f1;border-radius:8px;background:#f9f5ff;color:#111;outline:none">
+      </div>
+      <div id="plan-saving-result" style="background:#f0fdf4;border-radius:10px;padding:.75rem;display:none">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:12px;color:#374151">ภาษีก่อนซื้อเพิ่ม</span>
+          <span id="plan-tax-before" style="font-size:12px;font-weight:500;color:#374151">฿0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:12px;color:#374151">ภาษีหลังซื้อเพิ่ม</span>
+          <span id="plan-tax-after" style="font-size:12px;font-weight:500;color:#374151">฿0</span>
+        </div>
+        <div style="height:1px;background:#d1fae5;margin:6px 0"></div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-size:13px;font-weight:600;color:#059669">ประหยัดภาษีได้</span>
+          <span id="plan-tax-saving" style="font-size:16px;font-weight:700;color:#059669">฿0</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tax-panel-plan -->
 
   <div class="nav-bottom">
     <button class="nav-item" onclick="showTab('main',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>หน้าหลัก</button>
@@ -1304,6 +1423,70 @@ const TAX_BRACKETS=[
 ];
 
 let numChild=0,numParent=0;
+
+function switchTaxTab(tab, btn){
+  document.querySelectorAll('#screen-tax .period-tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tax-panel-calc').style.display=tab==='calc'?'block':'none';
+  document.getElementById('tax-panel-plan').style.display=tab==='plan'?'block':'none';
+  if(tab==='plan') calcPlan();
+}
+
+function pullSalaryFromMN(){
+  const now=new Date();
+  const year=now.getFullYear();
+  const monthStr=`${year}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const thisMon=userData.transactions.filter(t=>t.type==='income'&&t.date&&t.date.startsWith(monthStr));
+  const lastMonDate=new Date(year,now.getMonth()-1,1);
+  const lastMonStr=`${lastMonDate.getFullYear()}-${String(lastMonDate.getMonth()+1).padStart(2,'0')}`;
+  const lastMon=userData.transactions.filter(t=>t.type==='income'&&t.date&&t.date.startsWith(lastMonStr));
+  const txs=thisMon.length>=lastMon.length?thisMon:lastMon;
+  const label=thisMon.length>=lastMon.length?'เดือนนี้':'เดือนที่แล้ว';
+  const total=txs.reduce((s,t)=>s+t.amount,0);
+  document.getElementById('plan-salary').value=total;
+  document.getElementById('plan-salary-note').textContent=total?`ดึงรายได้${label} ${txs.length} รายการ: ฿${fmtN(total)}`:'ไม่พบรายได้';
+  calcPlan();
+}
+
+function calcTaxFromNet(netIncome){
+  let tax=0;
+  for(const b of TAX_BRACKETS){
+    if(netIncome<=b.min) break;
+    const taxable=Math.min(netIncome,b.max)-b.min;
+    tax+=taxable*b.rate;
+  }
+  return Math.round(tax);
+}
+
+function calcPlan(){
+  const salary=parseFloat(document.getElementById('plan-salary').value)||0;
+  const months=parseInt(document.getElementById('plan-months').value)||12;
+  const bonusMonths=parseFloat(document.getElementById('plan-bonus-months').value)||0;
+  const extraDed=parseFloat(document.getElementById('plan-deductions').value)||0;
+  const extraPlan=parseFloat(document.getElementById('plan-extra-ded').value)||0;
+  const totalIncome=salary*months+salary*bonusMonths;
+  const expDed=Math.min(totalIncome*0.5,100000);
+  const totalDed=expDed+60000+extraDed;
+  const netIncome=Math.max(0,totalIncome-totalDed);
+  const tax=calcTaxFromNet(netIncome);
+  const effRate=totalIncome>0?((tax/totalIncome)*100).toFixed(2):0;
+  const taxPerMonth=Math.round(tax/12);
+  document.getElementById('plan-r-income').textContent='฿'+fmtN(totalIncome);
+  document.getElementById('plan-r-ded').textContent='-฿'+fmtN(totalDed);
+  document.getElementById('plan-r-net').textContent='฿'+fmtN(netIncome);
+  document.getElementById('plan-r-rate').textContent=effRate+'%';
+  document.getElementById('plan-r-tax-year').textContent='฿'+fmtN(tax);
+  document.getElementById('plan-r-tax-month').textContent='฿'+fmtN(taxPerMonth);
+  const savingEl=document.getElementById('plan-saving-result');
+  if(extraPlan>0){
+    const taxAfter=calcTaxFromNet(Math.max(0,netIncome-extraPlan));
+    const saving=tax-taxAfter;
+    document.getElementById('plan-tax-before').textContent='฿'+fmtN(tax);
+    document.getElementById('plan-tax-after').textContent='฿'+fmtN(taxAfter);
+    document.getElementById('plan-tax-saving').textContent='฿'+fmtN(saving);
+    savingEl.style.display='block';
+  }else{savingEl.style.display='none';}
+}
 
 function initTaxScreen(){
   // เติมปีให้เลือก
